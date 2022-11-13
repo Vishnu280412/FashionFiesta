@@ -1,12 +1,14 @@
 const express = require("express");
 const env = require("./config/envConfig");
+const cors = require("cors");
 const connect = require("./config/db");
-const userRoutes = require("./routes/users/userRoutes");
+const userRoutes = require("./routes/userRoutes");
 const app = express();
 
 // database connection
 connect();
 
+app.use(cors());
 // middleware
 app.use(express.json());
 
