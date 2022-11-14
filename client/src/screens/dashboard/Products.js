@@ -1,5 +1,11 @@
+import Wrapper from "./Wrapper";
+
 const Products = () => {
-    return <h1>Products List</h1>
+    return(
+        <Wrapper>
+            lorem herhgsiehb er gkiergk sbhgebskh gerhgb shjgbkhsdbg igsj kgi esrhkg brgb rbsikhgb
+        </Wrapper>
+    )
 }
 
 export default Products;
