@@ -41,7 +41,7 @@ const AdminLogin = () => {
                     error.param === 'email'
                 )).map((error, key) => (
                     <div key={key}>
-                        <p className="text-red-700 mb-4 text-right text-xs font-medium"><span className="bg-red-100 p-1 rounded-sm">{error.msg}</span></p>
+                        <p className="alert-danger"><span className="bg-red-100 p-1 rounded-sm">{error.msg}</span></p>
                     </div>
                 ))}
 
@@ -52,7 +52,7 @@ const AdminLogin = () => {
                     error.param === 'password'
                 )).map((error, key) => (
                     <div key={key}>
-                        <p className="text-red-700 mb-2 text-right text-xs font-medium"><span className="bg-red-100 p-1 rounded-sm">{error.msg}</span></p>
+                        <p className="alert-danger"><span className="bg-red-100 p-1 rounded-sm">{error.msg}</span></p>
                     </div>
                 ))}
                 

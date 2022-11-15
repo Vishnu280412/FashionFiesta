@@ -10,12 +10,25 @@ class Category {
             const exist = await CategoryModel.findOne({name});
             if(!exist){
                 await CategoryModel.create({name});
-                res.status(201).json({message: 'Category has been created!'});
+                res.status(201).json({message: 'Your category has been created successfully!'});
             } else{
                 return res.status(401).json({errors: [{msg: `${name} already exists!!`}]});
             }
         } else{
             return res.status(401).json({errors: errors.array()});
+        }
+    }
+
+    async categories(req, res) {
+        const page = req.params.page;
+        const perPage = 3;
+        const skip = (page - 1) *perPage;
+        try {
+            const count = await CategoryModel.find({}).countDocuments();
+            const response = await CategoryModel.find({}).skip(skip).limit(perPage).sort({updatedAt: -1});
+            return res.status(200).json({categories: response, perPage, count});
+        } catch (error) {
+            console.log(error.message);
         }
     }
 }
