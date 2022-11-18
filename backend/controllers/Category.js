@@ -12,10 +12,10 @@ class Category {
                 await CategoryModel.create({name});
                 res.status(201).json({message: 'Your category has been created successfully!'});
             } else{
-                return res.status(401).json({errors: [{msg: `${name} already exists!!`}]});
+                return res.status(400).json({errors: [{msg: `${name} already exists!!`}]});
             }
         } else{
-            return res.status(401).json({errors: errors.array()});
+            return res.status(400).json({errors: errors.array()});
         }
     }
 
@@ -29,6 +29,7 @@ class Category {
             return res.status(200).json({categories: response, perPage, count});
         } catch (error) {
             console.log(error.message);
+            return res.status(500).json('Server internal error!!');
         }
     }
 
@@ -39,6 +40,7 @@ class Category {
             return res.status(200).json({category: response})
         } catch (error) {
             console.log(error.message);
+            return res.status(500).json('Server internal error!!');
         }
     }
 
@@ -52,10 +54,31 @@ class Category {
                 const response = await CategoryModel.updateOne({_id: id}, {$set: {name}});
                 return res.status(200).json({message: 'Your category has been updated successfully!'})
             } else {
-                return res.status(401).json({errors: [{msg: `${name} exists already!!`}]});    
+                return res.status(400).json({errors: [{msg: `${name} exists already!!`}]});    
             }
         } else {
-            return res.status(401).json({errors: errors.array()});
+            return res.status(400).json({errors: errors.array()});
+        }
+    }
+
+    async deleteCategory(req, res) {
+        const {id} = req.params;
+        try {
+            await CategoryModel.deleteOne({_id: id});
+            return res.status(200).json({message: 'Your category has been deleted successfully!'});
+        } catch (error) {
+            console.log(error.message);
+            return res.status(500).json('Server internal error!!');
+        }
+    }
+
+    async allCategories(req, res) {
+        try {
+            const categories = await CategoryModel.find({});
+            return res.status(200).json({categories});
+        } catch (error) {
+            console.log(error.message);
+            return res.status(500).json('Server internal error!!');
         }
     }
 }

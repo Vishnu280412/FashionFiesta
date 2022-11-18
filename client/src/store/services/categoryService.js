@@ -34,6 +34,15 @@ const categoryService = createApi({
                 },
                 invalidatesTags: ['categories']
             }),
+            deleteCategory: builder.mutation({
+                query: (id) => {
+                    return {
+                        url: `delete-category/${id}`,
+                        method: 'DELETE'
+                    }
+                },
+                invalidatesTags: ['categories']
+            }),
             get: builder.query({
                 query: (page) => {
                     return {
@@ -51,11 +60,19 @@ const categoryService = createApi({
                     }
                 },
                 providesTags: ['categories']
+            }),
+            fetchAllCategories: builder.query({
+                query: () => {
+                    return {
+                        url: 'allcategories',
+                        method: 'GET'
+                    }
+                }
             })
         }
     }
 });
 
 
-export const { useCreateMutation, useGetQuery, useFetchCategoryQuery, useUpdateCategoryMutation } = categoryService;
+export const { useCreateMutation, useGetQuery, useFetchCategoryQuery, useFetchAllCategoriesQuery ,useUpdateCategoryMutation, useDeleteCategoryMutation } = categoryService;
 export default categoryService;

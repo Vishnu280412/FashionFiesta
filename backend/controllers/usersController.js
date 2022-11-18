@@ -24,7 +24,7 @@ module.exports.register = async (req, res) => {
                 return res.status(201).json({msg: 'Your account has been created!!', token});
             } else{
                 // email exists
-                return res.status(401).json({errors: [{msg: `${email} already exists!!`}]});
+                return res.status(400).json({errors: [{msg: `${email} already exists!!`}]});
             }
         } catch (error) {
             console.log(error.message);
@@ -56,10 +56,10 @@ module.exports.login = async (req, res) => {
                         return res.status(201).json({token, admin: false});
                     }
                 }   else {
-                    return res.status(401).json({errors: [{param: 'password',msg: 'Incorrect Password!!'}]});
+                    return res.status(400).json({errors: [{param: 'password',msg: 'Incorrect Password!!'}]});
                 }
             }   else{
-                return res.status(401).json({errors: [{param: 'email' ,'msg': `${email} is not found`}]
+                return res.status(400).json({errors: [{param: 'email' ,'msg': `${email} is not found`}]
             });
             }
         } catch (error) {
@@ -68,6 +68,6 @@ module.exports.login = async (req, res) => {
         }
     } else{
         // validation failed
-        return res.status(401).json({errors: errors.array()});
+        return res.status(400).json({errors: errors.array()});
     }
 } 
