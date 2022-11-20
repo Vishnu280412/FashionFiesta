@@ -33,7 +33,7 @@ const Pagination = ({page, perPage, count, path})=> {
         }
     }
 
-    return count > 3 && (
+    return count > perPage && (
         <ul className="flex mt-3">
             {prev()}
             {links()}

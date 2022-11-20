@@ -20,10 +20,6 @@
 }
 
 /* React Quill */
-.ql-toolbar:first-child {
-    display: none !important;
-}
-
 .ql-toolbar.ql-snow {
     @apply border-none bg-gray-900 !important;
 }

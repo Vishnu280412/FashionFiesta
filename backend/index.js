@@ -4,6 +4,7 @@ const cors = require("cors");
 const connect = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
+const productRoutes = require("./routes/productRoutes");
 const app = express();
 
 // database connection
@@ -21,6 +22,8 @@ app.get("/", (req, res) => {
 app.use('/api',userRoutes);
 // category routes
 app.use('/api', categoryRoutes);
+// product routes
+app.use('/api', productRoutes);
 
 const port = env.PORT || 5000;
 

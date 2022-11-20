@@ -36,7 +36,7 @@ const CreateCategory = () => {
                     <p className="alert-danger" key={key}><span className="bg-red-100 p-1 rounded-sm">{error.msg}</span></p>
                 ))}
                 <div className="mb-3">
-                    <input type="submit" value={data.isLoading ? 'Loading...' : 'create category'} className="btn btn-indigo" />
+                    <input type="submit" value={data.isLoading ? 'loading...' : 'create category'} className="btn btn-indigo" />
                 </div>
             </form>
         </Wrapper>

@@ -1,16 +1,20 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { TwitterPicker } from "react-color";
 import { v4 as uuidv4 } from "uuid";
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
+import toast, { Toaster } from "react-hot-toast";
 import ScreenHeader from "../../components/ScreenHeader";
 import Wrapper from "./Wrapper";
 import { useFetchAllCategoriesQuery } from "../../store/services/categoryService";
+import { useCProductMutation } from "../../store/services/productService";
 import Spinner from "../../components/Spinner";
 import Colors from "../../components/Colors";
 import SizeList from "../../components/SizeList";
 import ImagesPreview from "../../components/ImagesPreview";
+import { setSuccess } from "../../store/reducers/globalReducer";
 
 const CreateProduct = () => {
     const {data = [], isFetching} = useFetchAllCategoriesQuery();
@@ -75,13 +79,44 @@ const CreateProduct = () => {
         const filtered = sizeList.filter((size) => size.name !== name);
         setSizeList(filtered);
     }
+
+    const [createNewProduct, response] = useCProductMutation();
+    const createPro = e => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append('data', JSON.stringify(state));
+        formData.append('sizes', JSON.stringify(sizeList));
+        formData.append('description', value);
+        formData.append('image1', state.image1);
+        formData.append('image2', state.image2);
+        formData.append('image3', state.image3);
+        createNewProduct(formData);
+    }
+
+    useEffect(() => {
+        if(!response.isSuccess) {
+            response?.error?.data?.errors.map(err => {
+                toast.error(err.msg);
+            })
+        }
+    }, [response?.error?.data?.errors])
+    
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    useEffect(() => {
+        if(response?.isSuccess) {
+            dispatch(setSuccess(response?.data?.msg));
+            navigate('/dashboard/products');
+        }
+    }, [response?.isSuccess])
     return(
         <Wrapper>
             <ScreenHeader>
                 <Link to="/dashboard/products" className="btn-dark"><i className="bi bi-arrow-left-short"> </i>products list</Link>
             </ScreenHeader>
+            <Toaster position="top-right" reverseOrder={true} />
             <div className="flex flex-wrap -mx-3">
-                <div className="w-full xl:w-8/12 p-3">
+                <form className="w-full xl:w-8/12 p-3" onSubmit={createPro}>
                     <div className="flex flex-wrap">
                         <div className="w-full md:w-6/12 p-3">
                             <label htmlFor="title" className="label">title</label>
@@ -137,10 +172,10 @@ const CreateProduct = () => {
                             <ReactQuill id="description" value={value} onChange={setValue} placeholder="Description" />
                         </div>
                         <div className="w-full p-3">
-                            <input type="submit" value="save product" className="btn btn-indigo" />
+                            <input type="submit" value={response.isLoading ? 'loading...' : 'save product'} disabled={response.isLoading ? true : false } className="btn btn-indigo" />
                         </div>
                     </div>
-                </div>
+                </form>
                 <div className="w-full xl:w-4/12 p-3 ">
                     <Colors colors={state.colors} deleteColor={deleteColor} />
                     <SizeList list={sizeList} deleteSize={deleteSize} />
