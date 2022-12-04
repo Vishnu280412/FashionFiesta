@@ -52,7 +52,7 @@ class Category {
             const exist = await CategoryModel.findOne({name});
             if(!exist) {
                 const response = await CategoryModel.updateOne({_id: id}, {$set: {name}});
-                return res.status(200).json({message: 'Your category has been updated successfully!'})
+                return res.status(200).json({message: 'Your category has been updated successfully!'});
             } else {
                 return res.status(400).json({errors: [{msg: `${name} exists already!!`}]});    
             }

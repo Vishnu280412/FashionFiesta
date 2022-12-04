@@ -24,10 +24,38 @@ const productService = createApi({
                 },
                 invalidatesTags: ['products']
             }),
+            updateProduct: builder.mutation({
+                query: (data) => {
+                    return {
+                        url: 'product',
+                        method: 'PUT',
+                        body: data
+                    }
+                },
+                invalidatesTags: ['products']   
+            }),
+            deleteProduct: builder.mutation({
+                query: (id) => {
+                    return {
+                        url: `delete/${id}`,
+                        method: 'DELETE'
+                    }
+                },
+                invalidatesTags: ['products']  
+            }),
             getProducts: builder.query({
                 query: (page) => {
                     return {
                         url: `products/${page}`,
+                        method: 'GET'
+                    }
+                },
+                providesTags: ['products']
+            }),
+            getProduct: builder.query({
+                query: (id) => {
+                    return {
+                        url: `product/${id}`,
                         method: 'GET'
                     }
                 },
@@ -37,5 +65,5 @@ const productService = createApi({
     }
 })
 
-export const { useCProductMutation, useGetProductsQuery } = productService;
+export const { useCProductMutation, useUpdateProductMutation, useDeleteProductMutation, useGetProductsQuery, useGetProductQuery } = productService;
 export default productService;

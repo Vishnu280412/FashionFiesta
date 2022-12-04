@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import ScreenHeader from "../../components/ScreenHeader";
 import { Link, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
 import Wrapper from "./Wrapper";
 import { clearMessage, setSuccess } from "../../store/reducers/globalReducer";
 import { useGetQuery, useDeleteCategoryMutation } from "../../store/services/categoryService";
@@ -26,10 +27,17 @@ const Categories = () => {
         if(response.isSuccess) {
             dispatch(setSuccess(response?.data?.message));
         } 
+        return () => {
+            dispatch(clearMessage());
+        }
     }, [response?.data?.message]);
 
     useEffect(() => {
-        dispatch(setSuccess(success));
+        if(success) {
+            // dispatch(setSuccess(success));
+            toast.success(success);
+            dispatch(clearMessage());
+        }
         return () => {
             dispatch(clearMessage());
         }
@@ -40,7 +48,8 @@ const Categories = () => {
             <ScreenHeader>
                 <Link to="/dashboard/create-category" className="btn-dark"><i className="bi bi-plus"> </i>add categories</Link>
             </ScreenHeader>
-            {success && <div className="alert-success">{success}</div>}
+            <Toaster position="top-right" />
+            {/* {success && <div className="alert-success">{success}</div>} */}
             {!isFetching ? data?.categories?.length > 0 && <><div>
                 <table className="w-full bg-gray-900 rounded-md">
                     <thead>

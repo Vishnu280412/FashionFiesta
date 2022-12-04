@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import toast, { Toaster } from "react-hot-toast";
+import h2p from "html2plaintext";
 import ScreenHeader from "../../components/ScreenHeader";
 import Wrapper from "./Wrapper";
 import { useFetchAllCategoriesQuery } from "../../store/services/categoryService";
@@ -52,14 +53,24 @@ const CreateProduct = () => {
 
     const imageHandle = e => {
         if(e.target.files.length !== 0) {
-            setState({...state, [e.target.name]: e.target.files[0]});
+            
             const reader = new FileReader();
             reader.onloadend = () => {
-                setPreview({...preview, [e.target.name]: reader.result})
+                setState({...state, [e.target.name]: reader.result});
+                setPreview({...preview, [e.target.name]: reader.result});
             }
             reader.readAsDataURL(e.target.files[0]);
+
+            // var file = e.target.files[0];
+            // var reader = new FileReader();
+            // reader.onloadend = function() {
+            //     setState({...state, [e.target.name]: reader.result});
+            //     setPreview({...preview, [e.target.name]: reader.result});
+            // }
+            // reader.readAsDataURL(file);
         }
-    }
+   }
+
     const handleInput = e => {
         setState({...state, [e.target.name]: e.target.value});
     }
@@ -86,7 +97,7 @@ const CreateProduct = () => {
         const formData = new FormData();
         formData.append('data', JSON.stringify(state));
         formData.append('sizes', JSON.stringify(sizeList));
-        formData.append('description', value);
+        formData.append('description', h2p(value));
         formData.append('image1', state.image1);
         formData.append('image2', state.image2);
         formData.append('image3', state.image3);
@@ -99,7 +110,7 @@ const CreateProduct = () => {
                 toast.error(err.msg);
             })
         }
-    }, [response?.error?.data?.errors])
+    }, [response?.error?.data?.errors]);
     
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -108,7 +119,7 @@ const CreateProduct = () => {
             dispatch(setSuccess(response?.data?.msg));
             navigate('/dashboard/products');
         }
-    }, [response?.isSuccess])
+    }, [response?.isSuccess]);
     return(
         <Wrapper>
             <ScreenHeader>

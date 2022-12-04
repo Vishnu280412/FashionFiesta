@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
 import Wrapper from "./Wrapper";
 import ScreenHeader from "../../components/ScreenHeader";
-import { clearMessage } from "../../store/reducers/globalReducer";
-import { useGetProductsQuery } from "../../store/services/productService";
+import { clearMessage, setSuccess } from "../../store/reducers/globalReducer";
+import { useGetProductsQuery, useDeleteProductMutation } from "../../store/services/productService";
 import Spinner from "../../components/Spinner";
 import Pagination from "../../components/Pagination";
 
@@ -17,14 +17,26 @@ const Products = () => {
     const { data = [], isFetching } = useGetProductsQuery(page);
     const { success } = useSelector(state => state.globalReducer);
     const dispatch = useDispatch();
+
+    
+
+    const [delProduct, response] = useDeleteProductMutation();
+    const deleteProduct = (id) => {
+        if(window.confirm("Do you really want to delete this product?")) {
+            delProduct(id);
+        }
+    }
+
     useEffect(() => {
         if(success) {
             toast.success(success);
+            dispatch(clearMessage());
         }
         return () => {
             dispatch(clearMessage());
         }
-    })
+    }, []);
+
     return(
         <Wrapper>
             <ScreenHeader>
@@ -49,9 +61,9 @@ const Products = () => {
                                 <td className="p-3 capitalize text-sm font-normal text-gray-400">{product.title}</td>
                                 <td className="p-3 capitalize text-sm font-normal text-gray-400">₹{product.price}.00</td>
                                 <td className="p-3 capitalize text-sm font-normal text-gray-400">{product.stock}</td>
-                                <td className="p-3 capitalize text-sm font-normal text-gray-400"><img src={`/images/${product.image1}`} alt="image" className="w-20 h-20 rounded-md object-cover" /></td>
-                                <td className="p-3 capitalize text-sm font-normal text-gray-400"><Link to={``} className="btn btn-warning"><i className="bi bi-pencil-square"></i></Link></td>
-                                <td className="p-3 capitalize text-sm font-normal text-gray-400"><button className="btn btn-danger"><i className="bi bi-trash-fill"></i></button></td>
+                                <td className="p-3 capitalize text-sm font-normal text-gray-400"><img src={`${product.image1}`} alt="image" className="w-20 h-20 rounded-md object-cover" /></td>
+                                <td className="p-3 capitalize text-sm font-normal text-gray-400"><Link to={`/dashboard/edit-product/${product._id}`} className="btn btn-warning"><i className="bi bi-pencil-square"></i></Link></td>
+                                <td className="p-3 capitalize text-sm font-normal text-gray-400"><button className="btn btn-danger" onClick={() => deleteProduct(product._id)}><i className="bi bi-trash-fill"></i></button></td>
                             </tr>
                         ))} 
                     </tbody>
