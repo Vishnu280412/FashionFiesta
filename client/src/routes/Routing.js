@@ -8,14 +8,30 @@ import CreateCategory from "../screens/dashboard/CreateCategory";
 import UpdateCategory from "../screens/dashboard/UpdateCategory";
 import CreateProduct from "../screens/dashboard/CreateProduct";
 import EditProduct from "../screens/dashboard/EditProduct";
+import Home from "../screens/home/Home";
+import Login from "../screens/home/auth/Login";
+import Register from "../screens/home/auth/Register";
+import Dashboard from "../screens/users/Dashboard";
+import UserRoute from "./UserRoute";
+import UserAuthRoute from "./UserAuthRoute";
 
 const Routing = () => {
     return(
         <BrowserRouter>
         <Routes>
+            <Route path="/" element={<Home />} />
+            <Route element={<UserAuthRoute />}>
+                <Route path="login" element={<Login />} />
+                <Route path="register" element={<Register />} />
+            </Route>
+            <Route element={<UserRoute />}>
+                <Route path="user" element={<Dashboard />} />
+            </Route>
+            
             <Route path="auth">
                 <Route path="admin-login" element={<Public><AdminLogin /></Public>} />
             </Route>
+
             <Route path="dashboard">
                 <Route path="products" element={<Private><Products /></Private>} />
                 <Route path="products/:page" element={<Private><Products /></Private>} />

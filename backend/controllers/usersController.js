@@ -24,7 +24,7 @@ module.exports.register = async (req, res) => {
                 return res.status(201).json({msg: 'Your account has been created!!', token});
             } else{
                 // email exists
-                return res.status(400).json({errors: [{msg: `${email} already exists!!`}]});
+                return res.status(400).json({errors: [{msg: `${email} already exists!!`, param: 'email'}]});
             }
         } catch (error) {
             console.log(error.message);

@@ -9,5 +9,6 @@ router.get("/categories/:page", Authorization.authorized, Category.categories);
 router.get("/fetch-category/:id", Authorization.authorized, Category.fetchCategory);
 router.put("/update-category/:id", [categoryValidations, Authorization.authorized], Category.updateCategory);
 router.delete("/delete-category/:id", Authorization.authorized, Category.deleteCategory);
-router.get("/allcategories", Authorization.authorized, Category.allCategories);
+router.get("/allcategories", Category.allCategories);
+router.get('/random-categories', Authorization.authorized, Category.randomCategories);
 module.exports = router;
