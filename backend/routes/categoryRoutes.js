@@ -10,5 +10,5 @@ router.get("/fetch-category/:id", Authorization.authorized, Category.fetchCatego
 router.put("/update-category/:id", [categoryValidations, Authorization.authorized], Category.updateCategory);
 router.delete("/delete-category/:id", Authorization.authorized, Category.deleteCategory);
 router.get("/allcategories", Category.allCategories);
-router.get('/random-categories', Authorization.authorized, Category.randomCategories);
+router.get('/random-categories', Category.randomCategories);
 module.exports = router;

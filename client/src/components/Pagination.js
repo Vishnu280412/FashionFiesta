@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const Pagination = ({page, perPage, count, path})=> {
+const Pagination = ({page, perPage, count, path, theme})=> {
     const totalLinks = Math.ceil(count / perPage);
     let startLoop = page;
     let diff = totalLinks - page;
@@ -15,8 +15,8 @@ const Pagination = ({page, perPage, count, path})=> {
         const allLinks = [];
         for(let i = startLoop; i <= endLoop; i++) {
             allLinks.push(
-                <li key={i}>
-                    <Link className={`pagination-link ${page === i && 'bg-gray-500 text-gray-900'}`} to={`/${path}/${i}`}>{i}</Link>
+                <li key={i} className="pagination-li">
+                    <Link className={`${theme === 'light' ? 'pagination-link-light' : 'pagination-link'} ${page === i && 'bg-indigo-500 text-white'}`} to={`/${path}/${i}`}>{i}</Link>
                 </li>
             )
         }
@@ -24,12 +24,12 @@ const Pagination = ({page, perPage, count, path})=> {
     }
     const next = () => {
         if(page < totalLinks) {
-            return <li><Link className="pagination-link" to={`/${path}/${page + 1}`}>Next <i className="bi bi-chevron-double-right"></i></Link></li>
+            return <li className="pagination-li"><Link className={`${theme === 'light' ? 'pagination-link-light' : 'pagination-link'}`} to={`/${path}/${page + 1}`}>Next <i className="bi bi-chevron-double-right"></i></Link></li>
         }
     }
     const prev = () => {
         if(page > 1) {
-            return <li><Link className="pagination-link" to={`/${path}/${page - 1}`}><i className="bi bi-chevron-double-left"></i> Prev</Link></li>
+            return <li className="pagination-li"><Link className={`${theme === 'light' ? 'pagination-link-light' : 'pagination-link'}`} to={`/${path}/${page - 1}`}><i className="bi bi-chevron-double-left"></i> Prev</Link></li>
         }
     }
 

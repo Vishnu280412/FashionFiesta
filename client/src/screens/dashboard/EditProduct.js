@@ -6,8 +6,8 @@ import { v4 as uuidv4 } from "uuid";
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import toast, { Toaster } from "react-hot-toast";
-// import h2p from "html2plaintext";
-import parser from "html-react-parser";
+import h2p from "html2plaintext";
+// import parser from "html-react-parser";
 import ScreenHeader from "../../components/ScreenHeader";
 import Wrapper from "./Wrapper";
 import { useFetchAllCategoriesQuery } from "../../store/services/categoryService";
@@ -101,7 +101,7 @@ const EditProduct = () => {
     useEffect(() => {
         if(!fetching) {            
             setSizeList(product.sizes);
-            setValue(parser(product.description));
+            setValue(h2p(product.description));
             setState(product);
         }
     }, [product]);

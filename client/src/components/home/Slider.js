@@ -6,7 +6,6 @@ import Spinner from "../Spinner";
 
 const Slider = () => {
   const { data, isFetching } = useRandomCategoriesQuery();
-  console.log(data);
   return isFetching ? (
   <div className="my-container h-[70vh] flex items-center justify-center">
     <Spinner />
@@ -30,7 +29,7 @@ const Slider = () => {
             <div className="my-container h-[70vh] flex flex-col items-center justify-center">
               <h1 className="text-white text-xl font-medium capitalize">{cat.name}</h1>
               <div className="mt-10">
-                <Link to="/" className="btn btn-indigo text-sm">browse collections</Link>
+                <Link to={`/cat-products/${cat.name}`} className="btn btn-indigo text-sm">browse collections</Link>
               </div>
             </div>
           </div>
