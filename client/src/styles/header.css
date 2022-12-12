@@ -1,5 +1,5 @@
 .header {
-    @apply w-full h-[300px] bg-[url('../assets/images/header.png')] bg-no-repeat bg-cover relative -z-10;
+    @apply w-full h-[300px] bg-[url('../assets/images/header.jpg')] bg-no-repeat bg-cover relative -z-10;
 }
 
 .header-cover {

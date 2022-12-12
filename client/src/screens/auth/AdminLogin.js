@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { useAuthLoginMutation } from "../../store/services/authService";
 import { useDispatch } from "react-redux";
-import { setAdminToken } from "../../store/reducers/authReducer";
 import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
+import { useAuthLoginMutation } from "../../store/services/authService";
+import { setAdminToken } from "../../store/reducers/authReducer";
 
 const AdminLogin = () => {
     const navigate = useNavigate();
@@ -23,15 +24,18 @@ const AdminLogin = () => {
 
     const dispatch = useDispatch();
     useEffect(() => {
-        if(response.isSuccess) {
+        if(response.isSuccess && response?.data?.admin === true) {
             localStorage.setItem('admin-token', response?.data?.token);
             dispatch(setAdminToken(response?.data?.token));
             navigate('/dashboard/products')
+        } else if(response.isSuccess && response?.data?.admin === false) {
+            toast.error('Enter valid admin credentials.');
         }
     }, [response.isSuccess])
 
     return (
         <div className="bg-charcoal h-screen flex justify-center items-center">
+            <Toaster />
             <form className="bg-matteBlack p-5 w-10/12 sm:w-8/12 md:w-6/12 lg:w-4/12 rounded" onSubmit={adminLoginFunction}>
                 <h3 className="mb-4 text-white capitalize font-semibold text-lg">Login Dashboard</h3>
                 <div className="mb-4">

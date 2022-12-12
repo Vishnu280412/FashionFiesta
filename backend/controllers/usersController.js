@@ -20,7 +20,7 @@ module.exports.register = async (req, res) => {
                     email,
                     password: hashed
                 });
-                const token = createToken({id: user._id, name: user.name});
+                const token = createToken({id: user._id, name: user.name, admin: user.admin});
                 return res.status(201).json({msg: 'Your account has been created!!', token});
             } else{
                 // email exists
@@ -49,7 +49,7 @@ module.exports.login = async (req, res) => {
             const user = await UserModel.findOne({email});
             if(user) {
                 if(await comparePassword(password, user.password)) {
-                    const token = createToken({id: user._id, name: user.name});
+                    const token = createToken({id: user._id, name: user.name, admin: user.admin});
                     if(user.admin) {
                         return res.status(201).json({token, admin: true});
                     }   else {

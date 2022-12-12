@@ -1,18 +1,18 @@
 const { request } = require("express");
 const { validationResult } = require("express-validator");
-const CategoryModel = require("../models/Category");
+const CartModel = require("../models/Cart");
 
-class Category {
+class Cart {
     async create(req, res) {
         const errors = validationResult(req);
-        const {name} = req.body;
+        const {uid, products} = req.body;
         if(errors.isEmpty()) {
-            const exist = await CategoryModel.findOne({name});
+            const exist = await CartModel.findOne({uid});
             if(!exist){
-                await CategoryModel.create({name});
-                res.status(201).json({message: 'Your category has been created successfully!'});
+                await CartModel.create({uid, products});
+                res.status(201).json({message: 'Your cart has been created successfully!'});
             } else{
-                return res.status(400).json({errors: [{msg: `${name} already exists!!`}]});
+                return res.status(400).json({errors: [{msg: `${uid}'s cart already exists!!`}]});
             }
         } else{
             return res.status(400).json({errors: errors.array()});
@@ -33,16 +33,16 @@ class Category {
         }
     }
 
-    async fetchCategory(req, res) {
-        const {id} = req.params;
-        try {
-            const response = await CategoryModel.findOne({_id: id})
-            return res.status(200).json({category: response})
-        } catch (error) {
-            console.log(error.message);
-            return res.status(500).json('Server internal error!!');
-        }
-    }
+    // async fetchCategory(req, res) {
+    //     const {id} = req.params;
+    //     try {
+    //         const response = await CategoryModel.findOne({_id: id})
+    //         return res.status(200).json({category: response})
+    //     } catch (error) {
+    //         console.log(error.message);
+    //         return res.status(500).json('Server internal error!!');
+    //     }
+    // }
 
     async updateCategory(req, res) {
         const {id} = req.params;
@@ -93,4 +93,4 @@ class Category {
     }
 }
 
-module.exports = new Category;
+module.exports = new Cart;

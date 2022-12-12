@@ -43,9 +43,7 @@ class Product {
                         for(let i = 0; i < images.length; i++) {
                             const data = images[i];
                             const extension = data.split('/')[1].split(';')[0];
-                            console.log(extension);
                             if(extension === 'jpeg' || extension === 'jpg' || extension === 'png') {
-                                console.log(`${extension} is correct`);
                             } else {
                                 const error = {};
                                 error['msg'] = `image${i+1} has extension ${extension} and is invalid!!`;

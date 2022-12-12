@@ -4,6 +4,8 @@ import categoryService from "./services/categoryService";
 import productService from "./services/productService";
 import authReducer from "./reducers/authReducer";
 import globalReducer from "./reducers/globalReducer";
+import cartReducer from "./reducers/cartReducer";
+import wishlistReducer from "./reducers/wishlistReducer";
 import homeProducts from "./services/homeProducts";
 
 const Store = configureStore({
@@ -12,6 +14,8 @@ const Store = configureStore({
         [categoryService.reducerPath]: categoryService.reducer,
         [productService.reducerPath]: productService.reducer,
         [homeProducts.reducerPath]: homeProducts.reducer,
+        "cartReducer": cartReducer,
+        "wishlistReducer": wishlistReducer,
         "authReducer": authReducer,
         "globalReducer": globalReducer
     },

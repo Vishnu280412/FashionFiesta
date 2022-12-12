@@ -7,10 +7,10 @@ class Authorization {
         if(headerToken) {
             const token = headerToken.split("Bearer ")[1];
             const verified = jwt.verify(token, JWT_SECRET);
-            if(verified) {
+            if(verified?.admin === true) {
                 next();
             } else {
-                return res.ststus(401).json({errors: [{msg: "Please add a valid token"}]})
+                return res.status(401).json({errors: [{msg: "Please add a valid token"}]})
             }
         } else {
             return res.status(401).json({errors: [{msg: "Unauthorized access without token!"}]})

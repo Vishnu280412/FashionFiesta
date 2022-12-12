@@ -8,4 +8,4 @@ const Text = ({mt}) => {
   )
 }
 
-export default Text
+export default Text;
