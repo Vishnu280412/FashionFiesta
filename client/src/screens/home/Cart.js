@@ -1,4 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import currency from "currency-formatter";
 import { BsTrash } from 'react-icons/bs';
 import { motion } from 'framer-motion';
@@ -7,9 +9,11 @@ import { discount } from '../../utils/discount';
 import Quantity from '../../components/home/Quantity';
 import { incQuantity, decQuantity, removeItem } from '../../store/reducers/cartReducer';
 import { Link } from 'react-router-dom';
+import { useSendPaymentMutation } from '../../store/services/paymentService';
 
 const Cart = () => {
   const { cart, total } = useSelector(state => state.cartReducer);
+  const { userToken, user } = useSelector(state => state.authReducer);
   const dispatch = useDispatch();
   const inc = (id) => {
     dispatch(incQuantity(id));
@@ -20,6 +24,20 @@ const Cart = () => {
   const remove = (id) => {
     dispatch(removeItem(id));
   }
+  const navigate = useNavigate();
+  const [sendPayment, response] = useSendPaymentMutation();
+  const pay =  () => {
+    if(userToken) {
+      sendPayment({cart, id: user.id});
+    } else{
+      navigate('/login');
+    }
+  }
+  useEffect(() => {
+    if(response?.isSuccess) {
+      window.location.href = response?.data?.url;
+    }
+  }, [response])
   return (
     <>
         <Nav />
@@ -32,7 +50,7 @@ const Cart = () => {
                 <thead>
                   <tr className="thead-tr">
                     <th className="thead-th">image</th>
-                    <th className="thead-th">title</th>
+                    <th className="thead-th">name</th>
                     <th className="thead-th">color</th>
                     <th className="thead-th">size</th>
                     <th className="thead-th">price</th>
@@ -80,7 +98,7 @@ const Cart = () => {
                 <span className="text-lg font-semibold text-indigo-700">Total Price:</span>
                 <span className="text-lg font-semibold text-indigo-700 mr-5">{currency.format(total, {code: "INR"})}</span>
               </div>
-              <Link to="/" className="btn flex bg-indigo-600 text-sm font-medium mx-2.5 py-2.5">checkout</Link>
+              <button className="btn flex bg-indigo-600 text-sm font-medium mx-2.5 py-2.5" onClick={pay}>{response.isLoading ? 'Loading...' : 'Checkout'}</button>
             </div>
           </>) : (
             <div className="bg-indigo-50 border border-indigo-100 p-4 rounded-md text-sm font-medium text-indigo-800">Cart is empty.</div>
@@ -90,4 +108,4 @@ const Cart = () => {
   )
 }
 
-export default Cart;
+export default Cart; 

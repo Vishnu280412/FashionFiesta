@@ -14,7 +14,7 @@ const Sidebar = ({ side, closeSidebar }) => {
                 </li>
                 <li className="px-4 cursor-pointer transition-all py-3 text-white flex items-center hover:bg-gray-600">
                     <i className="bi bi-bag-check mr-2 inline-block text-lg"></i>
-                    <Link to="/dashboard/products" className="text-base capitalize">orders</Link>
+                    <Link to="/dashboard/orders" className="text-base capitalize">orders</Link>
                 </li>
                 <li className="px-4 cursor-pointer transition-all py-3 text-white flex items-center hover:bg-gray-600">
                     <i className="bi bi-people-fill mr-2 inline-block text-lg"></i>

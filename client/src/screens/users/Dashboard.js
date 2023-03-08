@@ -1,13 +1,32 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 import AccountList from "../../components/home/AccountList";
 import Header from "../../components/home/Header";
 import Nav from "../../components/home/Nav";
+import { useVerifyPaymentQuery } from "../../store/services/paymentService";
+import { removeAllItems } from "../../store/reducers/cartReducer";
 
 const Dashboard = () => {
     const { user } = useSelector(state => state.authReducer);
+    const [params] = useSearchParams();
+    const id = params.get('session_id');
+    const { data, isSuccess } = useVerifyPaymentQuery(id, { skip: id ? false : true });
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    useEffect(() => {
+        if(isSuccess) {
+            dispatch(removeAllItems());
+            localStorage.removeItem('cart');
+            toast.success(data.msg);
+            navigate('/user');
+        }
+    }, [isSuccess])
     return (
         <>
             <Nav />
+            <Toaster position="top-right" reverseOrder={false} />
             <div className="mt-[70px]">
                 <Header>
                     my account

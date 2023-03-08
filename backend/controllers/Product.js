@@ -20,6 +20,9 @@ class Product {
                 if(parseInt(parsedData.discount) < 0) {
                     errors.push({msg: 'Discount should not be negative!!'});
                 }
+                if(parseInt(parsedData.discount) > 100) {
+                    errors.push({msg: 'Discount should not exceed 100!!'});
+                }
                 if(parseInt(parsedData.stock) < 20) {
                     errors.push({msg: 'Stock should be more than 20!!'});
                 }

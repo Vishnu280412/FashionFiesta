@@ -8,6 +8,7 @@ import CreateCategory from "../screens/dashboard/CreateCategory";
 import UpdateCategory from "../screens/dashboard/UpdateCategory";
 import CreateProduct from "../screens/dashboard/CreateProduct";
 import EditProduct from "../screens/dashboard/EditProduct";
+import Orders from "../screens/dashboard/Orders";
 import Home from "../screens/home/Home";
 import Login from "../screens/home/auth/Login";
 import Register from "../screens/home/auth/Register";
@@ -19,6 +20,9 @@ import Product from "../screens/home/Product";
 import SearchProducts from "../screens/home/SearchProducts";
 import Cart from "../screens/home/Cart";
 import Wishlist from "../screens/home/Wishlist";
+import OrderDetails from "../screens/dashboard/OrderDetails";
+import UserOrders from "../screens/users/UserOrders";
+import UserOrderDetails from "../screens/users/UserOrderDetails";
 
 const Routing = () => {
     return(
@@ -37,6 +41,9 @@ const Routing = () => {
             </Route>
             <Route element={<UserRoute />}>
                 <Route path="user" element={<Dashboard />} />
+                <Route path="orders" element={<UserOrders />} />
+                <Route path="orders/:page" element={<UserOrders />} />
+                <Route path="user-order-details/:id" element={<UserOrderDetails />} />
             </Route>
             
             <Route path="auth">
@@ -54,6 +61,10 @@ const Routing = () => {
                 <Route path="create-category" element={<Private><CreateCategory /></Private>} />
                 <Route path="update-category/:id" element={<Private><UpdateCategory /></Private>} />
                 
+                <Route path="orders" element={<Orders />} />
+                <Route path="orders/:page" element={<Orders />} />
+                <Route path="order-details/:id" element={<OrderDetails />} />
+
             </Route>
         </Routes>
         </BrowserRouter>

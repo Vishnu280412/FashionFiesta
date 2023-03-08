@@ -33,7 +33,7 @@ const cartReducer = createSlice({
         },
         incQuantity: (state, {payload}) => {
             const find = state.cart.find(item => item._id === payload);
-            if(find) {
+            if(find && find.quantity < find.stock) {
                 find.quantity++;
                 state.items++;
                 state.total += discount(find.price, find.discount);
