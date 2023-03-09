@@ -39,11 +39,19 @@ const EditProduct = () => {
         {name: 'l'},
         {name: 'xl'},
         {name: 'xxl'},
-        {name: '1 year'},
-        {name: '2 years'},
-        {name: '3 years'},
-        {name: '4 years'},
-        {name: '5 years'}
+        {name: '6'},
+        {name: '7'},
+        {name: '8'},
+        {name: '9'},
+        {name: '10'},
+        {name: '11'},
+        {name: '12'},
+        {name: '26'},
+        {name: '28'},
+        {name: '30'},
+        {name: '32'},
+        {name: '34'},
+        {name: '36'}
     ]);
     const [sizeList, setSizeList] = useState([]);
     
