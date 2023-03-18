@@ -10,6 +10,7 @@ import cartReducer from "./reducers/cartReducer";
 import wishlistReducer from "./reducers/wishlistReducer";
 import homeProducts from "./services/homeProducts";
 import userOrdersService from "./services/userOrdersService";
+import userService from "./services/userService";
 
 const Store = configureStore({
     reducer: {
@@ -20,12 +21,13 @@ const Store = configureStore({
         [paymentService.reducerPath]: paymentService.reducer,
         [orderService.reducerPath]: orderService.reducer,
         [userOrdersService.reducerPath]: userOrdersService.reducer,
+        [userService.reducerPath]: userService.reducer, 
         "cartReducer": cartReducer,
         "wishlistReducer": wishlistReducer,
         "authReducer": authReducer,
         "globalReducer": globalReducer
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([categoryService.middleware, authService.middleware, productService.middleware, homeProducts.middleware, paymentService.middleware, orderService.middleware, userOrdersService.middleware]) 
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([categoryService.middleware, authService.middleware, productService.middleware, homeProducts.middleware, paymentService.middleware, orderService.middleware, userOrdersService.middleware, userService.middleware]) 
 });
 
 export default Store;

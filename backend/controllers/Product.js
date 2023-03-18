@@ -4,7 +4,7 @@ const { validationResult } = require("express-validator");
 const ProductModel = require("../models/ProductModel");
 
 class Product {
-    async create(req, res) {
+    async create(req, res) { 
         const form = formidable({ multiples: true });
         form.parse(req, async (err, fields, files) => {
             if(!err) {
@@ -111,7 +111,7 @@ class Product {
     }
 
     async updateProduct(req, res) {
-        console.log(req);
+        // console.log(req);
         const errors = validationResult(req);
         if(errors.isEmpty()) {
             try {
